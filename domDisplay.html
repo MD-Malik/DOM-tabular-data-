@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>DOM Display-II</title>
+
+    <style>
+        th,td{
+            border: 1px solid black;
+        }
+        table{
+            border: 2px solid black;
+        }
+    </style>
+</head>
+<body>
+    <form>
+        <input type="text" placeholder="Employee Name" class="employee_name">
+        <select name="department" class="employee_department">
+            <option value="">Select</option>
+            <option value="service">Service</option>
+            <option value="supply chain">Supply Chain Management</option>
+            <option value="production">Production</option>
+            <option value="finance">Finance</option>
+            <option value="IT">IT</option>
+        </select>
+        <input type="number" placeholder="Sales Year 1" class="sales_year_1">
+        <input type="number" placeholder="Sales Year 2" class="sales_year_2">
+
+        <input type="submit" class="submit_btn" placeholder="Submit">
+    </form>
+    <button class="ascending_btn">Ascending</button>
+    <button class="descending_btn">Descending</button>
+    <table>
+        <thead>
+            <tr>
+                <th>Employee Name</th>
+                <th>Employee Department</th>
+                <th>Sales Year 1</th>
+                <th>Sales Year 2</th>
+                <th>Average Yearly Sales</th>
+            </tr>
+        </thead>
+        <tbody>
+            <!-- <tr>
+                <td></td>
+                <td></td>
+                <td></td>
+                <td></td>
+            </tr> -->
+        </tbody>
+    </table>
+</body>
+</html>
+<script>
+    var arr=[]
+    document.querySelector('form').addEventListener("submit",submit_form)
+    
+    function submit_form(event){
+
+        event.preventDefault();
+        
+        var name=document.querySelector('.employee_name').value;
+        var department=document.querySelector('.employee_department').value;
+        var sy1=+document.querySelector('.sales_year_1').value;
+        var sy2=+document.querySelector('.sales_year_2').value;
+
+        var average=(sy1+sy2)/2
+
+        var tr=document.createElement('tr');  
+       
+        var td1=document.createElement('td')
+        var td2=document.createElement('td')
+        var td3=document.createElement('td')
+        var td4=document.createElement('td')
+        var td5=document.createElement('td')
+
+        td1.textContent=name;
+        td2.textContent=department;
+        td3.textContent=sy1+" Lac Rs."
+        td4.textContent=sy2+" Lac Rs."
+        td5.textContent=average+" Lac Rs.";
+        
+        tr.append(td1,td2,td3,td4,td5)
+
+        var inside_arr=[]
+        
+        inside_arr.push(name,department,sy1,sy2,average)
+
+        arr.push(inside_arr)
+
+        document.querySelector('tbody').append(tr);
+
+        document.querySelector('.ascending_btn').addEventListener('click',ascending_order)
+        document.querySelector('.descending_btn').addEventListener('click',descending_order)
+    }
+
+    
+
+    function ascending_order(){
+        
+        arr.sort(function(a,b){
+            return a[4] - b[4];
+        });
+        for(var i=0; i<arr.length; i++){
+        var row=document.querySelectorAll('tbody>tr')[i]
+        
+        for(var j=0; j<arr[i].length; j++){
+            if(j==4 || j==2 || j==3){
+                row.querySelectorAll('td')[j].textContent=arr[i][j]+" Lac Rs."
+            }
+            else{
+                row.querySelectorAll('td')[j].textContent=arr[i][j]
+                }
+            }
+        }
+    }
+    
+    function descending_order(){
+        arr.sort(function(a,b){
+            return b[4] - a[4];
+        });
+        
+        for(var i=0; i<arr.length; i++){
+            var row=document.querySelectorAll('tbody>tr')[i]
+            
+            for(var j=0; j<arr[i].length; j++){
+                if(j==2 || j==3 || j==4){
+                    row.querySelectorAll('td')[j].textContent=arr[i][j]+" Lac Rs."
+                }
+                else{
+                    row.querySelectorAll('td')[j].textContent=arr[i][j];
+                }
+            }
+        }
+    }
+</script>
